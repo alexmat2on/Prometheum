@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Prometheum</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+
+    <script src="bower_components/web3/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="container" id="main">
+            <h1>Prometheum</h1>
+            <br>
+            <p>Transparent, global, and autonomous donation handling for disaster situations.</p>
+            <p><b>Total Donation Balance: </b><span id="c-bal">0</span> ether<br>
+            <b>NGO Balance: </b><span id="s-bal">0</span> ether</p>
+
+            <button class="btn btn-primary form-btns" value="Donate">Donate</button>
+            <button class="btn btn-secondary form-btns"  value="Register AidID">Register AidID</button>
+            <button class="btn btn-outline-dark form-btns" value="Claim Aid">Claim Aid</button>
+
+            <div class="form" id="donate-form">
+                <br>
+                    <div class="form-group">
+                        <label for="sendAddressSelect">Pick your Ethereum wallet</label>
+                        <select class="form-control" id="sendAddressSelect">
+                        </select>
+                        <br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sendAmount">Donate amount</label>
+                        <input type="number" step="any" class="form-control" id="sendAmount" placeholder="ether">
+                        <small id="maxBalance" class="form-text text-muted">Max: </small>
+                        <br>
+                    </div>
+
+                    <button id="send-btn" class="btn btn-success" value="Send">Send</button>
+            </div>
+
+            <div class="form" id="register-form">
+                <br>
+                    <div class="form-group">
+                        <label for="registerFirstName">First Name</label>
+                        <input type="text" class="form-control" id="registerFirstName" placeholder="First Name"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerLastName">Last Name</label>
+                        <input type="text" class="form-control" id="registerLastName" placeholder="Last Name"><br>
+                    </div>
+
+                    <input type="button" id="register-btn" class="btn btn-success" value="Register">
+            </div>
+
+            <div class="form" id="claim-form">
+                <br>
+                    <div class="form-group">
+                        <label for="claimFirstName">First Name</label>
+                        <input type="text" class="form-control" id="claimFirstName" placeholder="First Name"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimLastName">Last Name</label>
+                        <input type="text" class="form-control" id="claimLastName" placeholder="Last Name"><br>
+                    </div>
+
+                    <input type="button" id="claim-btn" class="btn btn-success" value="Claim">
+            </div>
+        </div>
+
+        <div class="container" id="info">
+            <div class="row">
+                <!-- <div class="list col-md-3">
+                    <h1>Donors</h1>
+                    <table class="table" id="donate-table">
+
+                    </table>
+                </div> -->
+
+                <div class="list col-md-3">
+                    <h1>AidIDs</h1>
+                    <table class="table" id="table-ids">
+                        <tr>
+                            <th>ID</th>
+                            <th>Balance</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        abi = JSON.parse('[{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"aidReceived","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"claimID","type":"bytes32"}],"name":"getClaimBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"supplier","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"claim_ready","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"disberse","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"aidIDList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"claimID","type":"bytes32"}],"name":"registerClaimID","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"claimID","type":"bytes32"},{"name":"amount","type":"uint256"}],"name":"setBalance","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"amountRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"claimantID","type":"bytes32"}],"name":"claim","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"aidIDs","type":"bytes32[]"},{"name":"supplierAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"}]');
+        contractAddress = "0x7294b4968CaCf71662d825A5B4D9fC22824FEc7D";
+        supplierAddress = "0xeaf31e0692e3b531ce8efed0773d3ac4190e9feb";
+        ReliefContract = web3.eth.contract(abi);
+        contractInstance = ReliefContract.at(contractAddress);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+</html>

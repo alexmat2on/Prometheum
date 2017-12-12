@@ -1,0 +1,36 @@
+=============== Dec 11, 2017 (EST) ===============
+15:29:05.572371 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:29:05.592655 db@open opening
+15:29:05.599673 version@stat F·[] S·0B[] Sc·[]
+15:29:05.612947 db@janitor F·2 G·0
+15:29:05.612947 db@open done T·20.2922ms
+=============== Dec 11, 2017 (EST) ===============
+15:48:42.157243 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:48:42.157243 version@stat F·[] S·0B[] Sc·[]
+15:48:42.157243 db@open opening
+15:48:42.158248 journal@recovery F·1
+15:48:42.160115 journal@recovery recovering @1
+15:48:42.174491 memdb@flush created L0@2 N·9 S·530B "H\r\x94..\xef;R,v3":"r\x00\x00..\xef;R,v5"
+15:48:42.177497 version@stat F·[1] S·530B[530B] Sc·[0.25]
+15:48:42.194366 db@janitor F·3 G·0
+15:48:42.194366 db@open done T·37.1237ms
+16:02:34.644984 db@close closing
+16:02:34.647992 db@close done T·3.008ms
+=============== Dec 11, 2017 (EST) ===============
+22:43:18.388584 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:43:18.388584 version@stat F·[1] S·530B[530B] Sc·[0.25]
+22:43:18.389587 db@open opening
+22:43:18.389587 journal@recovery F·1
+22:43:18.389587 journal@recovery recovering @3
+22:43:18.405354 memdb@flush created L0@5 N·1702 S·75KiB "\x00\x1a\xd8..\xff\xdcv,v1009":"\xfcZW..\xdc\xe2[,v1288"
+22:43:18.406860 version@stat F·[2] S·76KiB[76KiB] Sc·[0.50]
+22:43:18.420905 db@janitor F·4 G·0
+22:43:18.420905 db@open done T·31.3178ms
+22:46:35.778520 table@compaction L0·2 -> L1·0 S·76KiB Q·1715
+22:46:35.795566 table@build created L1@8 N·878 S·51KiB "\x00\x1a\xd8..\xff\xdcv,v1009":"\xfcZW..\xdc\xe2[,v1288"
+22:46:35.795566 version@stat F·[0 1] S·51KiB[0B 51KiB] Sc·[0.00 0.00]
+22:46:35.807598 table@compaction committed F-1 S-24KiB Ke·0 D·833 T·29.0773ms
+22:46:35.811110 table@remove removed @5
+22:46:35.812616 table@remove removed @2
+23:18:46.776683 db@close closing
+23:18:46.777686 db@close done T·1.0027ms
