@@ -1,10 +1,5 @@
 function initialise() {
     hideForms();
-    populateAddresses();
-    populateIDs();
-
-    document.getElementById('c-bal').innerHTML = web3.fromWei(web3.eth.getBalance(contractAddress), 'ether');
-    document.getElementById('s-bal').innerHTML = web3.fromWei(web3.eth.getBalance(supplierAddress), 'ether');
 
     var btns = document.getElementsByClassName('form-btns');
 
@@ -19,6 +14,10 @@ function initialise() {
     btns[2].addEventListener("click", function() {
         toggleForm("claim-form");
     })
+
+    // Display the total balance, denominated in ether, of the contract's donation wallet and the NGO's wallet
+    document.getElementById('c-bal').innerHTML = web3.fromWei(web3.eth.getBalance(contractAddress), 'ether');
+    document.getElementById('s-bal').innerHTML = web3.fromWei(web3.eth.getBalance(supplierAddress), 'ether');
 
     var addressSelector = document.getElementById('sendAddressSelect');
     var maxBalance = document.getElementById('maxBalance');
@@ -55,6 +54,8 @@ function initialise() {
         var data = fn + ln;
 
     })
+    populateAddresses();
+    populateIDs();
 }
 
 function hideForms(exceptFor) {
@@ -139,7 +140,6 @@ function registerClaim(data) {
 function registerClaimAdmin(hash) {
     try {
         contractInstance.registerClaimID(hash, {from: web3.eth.accounts[0]}, function (err, res) {
-            //console.log(contractInstance.aidIDList.call());
             console.log(err);
             console.log(res);
         })
@@ -167,10 +167,6 @@ function claimAid(data) {
     var claimID = web3.sha3(data);
     console.log(claimID);
     contractInstance.claim(claimID);
-}
-
-function getClaim(claimID) {
-
 }
 
 initialise();

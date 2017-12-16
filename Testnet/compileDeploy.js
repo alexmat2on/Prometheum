@@ -1,3 +1,5 @@
+// Script to compile and deploy the smart contract onto the blockchain.
+
 fs = require("fs")
 
 Web3 = require("web3")
